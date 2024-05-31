@@ -8,3 +8,4 @@ vim.keymap.set("n", "<C-a>", function() ui.nav_file(1) end)
 vim.keymap.set("n", "<C-z>", function() ui.nav_file(2) end)
 vim.keymap.set("n", "<C-e>", function() ui.nav_file(3) end)
 vim.keymap.set("n", "<C-r>", function() ui.nav_file(4) end)
+
