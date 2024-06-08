@@ -34,7 +34,6 @@ return require('packer').startup(function(use)
     use("theprimeagen/harpoon")
     use("mbbill/undotree")
     use("tpope/vim-fugitive")
-    use 'andweeb/presence.nvim'
     use("m4xshen/autoclose.nvim")
     use("terrortylor/nvim-comment")
     use "lukas-reineke/indent-blankline.nvim"
