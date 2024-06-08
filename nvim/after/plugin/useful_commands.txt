@@ -1,0 +1,2 @@
+-- fugitive.vim
+:Gvdiffsplit : to see the difference between the current save and your last commit
