@@ -36,6 +36,7 @@ return require('packer').startup(function(use)
     use("tpope/vim-fugitive")
     use("m4xshen/autoclose.nvim")
     use("terrortylor/nvim-comment")
+    use("andweeb/presence.nvim")
     use "lukas-reineke/indent-blankline.nvim"
     use({ 'windwp/nvim-ts-autotag' })
   end)
