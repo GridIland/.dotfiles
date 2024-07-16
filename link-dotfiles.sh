@@ -6,6 +6,8 @@ CONFIG_DIR="$HOME/.config"
 
 SCRIPT_NAME=$(basename "$0")
 
+EXCLUDE_FILES=("backgrounds" "$SCRIPT_NAME")
+
 mkdir -p "$CONFIG_DIR"
 
 create_symlink(){
@@ -23,10 +25,10 @@ create_symlink(){
 
 for file in "$DOTFILES_DIR"/*; do
 
-	filename=$(basename "$file")
-	if [ "$filename" == "$SCRIPT_NAME" ]; then
-		continue
-	fi
+  filename=$(basename "$file")
+  if [[ " ${EXCLUDE_FILES[@]} " =~ " $filename " ]]; then		
+    continue
+  fi
 
 	create_symlink "$file" "$CONFIG_DIR/$filename"
 done
