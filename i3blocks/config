@@ -47,7 +47,7 @@ command=$SCRIPT_DIR/volume/volume
 # label=VOL
 interval=once
 signal=10
-#STEP=5%
+STEP=5%
 
 # Memory usage
 #
@@ -81,7 +81,6 @@ interval=30
 # The address can be forced to IPv4 or IPv6 with -4 or -6 switches.
 [iface]
 #IFACE=wlan0
-command=$SCRIPT_DIR/iface/iface
 color=#00FF00
 interval=10
 separator=false
@@ -101,6 +100,7 @@ interval=5
 # The script may be called with -w and -c switches to specify thresholds,
 # see the script for details.
 [cpu_usage]
+command=$SCRIPT_DIR/cpu_usage/cpu_usage
 label=CPU
 interval=10
 min_width=CPU 100.00%
@@ -122,8 +122,8 @@ interval=30
 # Date Time
 #
 [time]
-command=date '+%Y-%m-%d %H:%M:%S'
-interval=5
+command=date '+%H:%M:%S'
+interval=1
 
 [rofi-calendar]
 command=$SCRIPT_DIR/rofi-calendar/rofi-calendar
@@ -172,14 +172,15 @@ interval=3600
 #
 # bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
 # bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
-#[keyindicator]
-#KEY=CAPS
-#markup=pango
-#interval=once
-#signal=11
+[keyindicator]
+command=$SCRIPT_DIR/keyindicator/keyindicator
+markup=pango
+interval=once
+signal=11
 
-#[keyindicator]
-#KEY=NUM
-#markup=pango
-#interval=once
-#signal=11
+[keyindicator]
+KEY=NUM
+command=$SCRIPT_DIR/keyindicator/keyindicator
+markup=pango
+interval=once
+signal=11

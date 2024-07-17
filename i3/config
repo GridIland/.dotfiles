@@ -40,6 +40,9 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
+bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
+bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
+
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
@@ -207,3 +210,7 @@ client.focused          #1E3D59 #1E3D59 #ffffff #1E3D59 #1E3D59
 client.unfocused        #222222 #222222 #ffffff #222222 #222222
 client.focused_inactive #333333 #333333 #ffffff #333333 #333333
 client.urgent           #900000 #900000 #ffffff #900000 #900000
+
+floating_minimum_size 50 x 50
+floating_maximum_size 800 x 600
+for_window [floating] resize set 800 600, move position center
