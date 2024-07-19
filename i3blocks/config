@@ -31,7 +31,7 @@ markup=none
 
 # Spotify icon \uF1BC
 [spotify]
-label=
+#label=
 command=$SCRIPT_DIR/i3blocks-spotify/spotify
 color=#81b71a
 interval=5
@@ -55,7 +55,7 @@ STEP=5%
 [memory]
 label=MEM
 command=$SCRIPT_DIR/memory/memory
-separator=false
+separator=true
 interval=30
 
 
@@ -71,7 +71,8 @@ interval=30
 # The script may be called with a optional argument to set the alert
 # (defaults to 10 for 10%).
 [disk]
-label=HOME
+label=💾
+command=$SCRIPT_DIR/disk/disk -n
 #DIR=/mnt/data
 interval=30
 
