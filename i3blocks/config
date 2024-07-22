@@ -65,16 +65,32 @@ instance=swap
 separator=false
 interval=30
 
+
+[timer_and_stopwatch]
+# the DEFAULT_MODE variable must be either timer or stopwatch
+command=$SCRIPT_DIR/timer_and_stopwatch/timer_and_stopwatch
+format=json
+interval=1
+DEFAULT_MODE=timer
+TIMER_LABEL=TM
+#STOPWATCH_LABEL=SW
+#DEFAULT_STOPWATCH=0
+DEFAULT_TIMER=60*15
+PLAY_LABEL=(PL)
+PAUSE_LABEL=(PS)
+#TIMER_LOOP=true
+#NEUTRAL_COLOR=#000000
+
 # Disk usage
 #
 # The directory defaults to $HOME if the instance is not specified.
 # The script may be called with a optional argument to set the alert
 # (defaults to 10 for 10%).
-[disk]
-label=💾
-command=$SCRIPT_DIR/disk/disk -n
-#DIR=/mnt/data
-interval=30
+#[disk]
+#label=💾
+#command=$SCRIPT_DIR/disk/disk -n
+##DIR=/mnt/data
+#interval=30
 
 # Network interface monitoring
 #
@@ -104,7 +120,7 @@ interval=5
 command=$SCRIPT_DIR/cpu_usage/cpu_usage
 label=CPU
 interval=10
-min_width=CPU 100.00%
+min_width=CPU 1
 #separator=false
 
 [load_average]
