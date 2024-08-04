@@ -9,13 +9,13 @@ startup_mode = "Maximized"
 [font]
 size = 10.5
 [font.normal]
-family = "FiraMono Nerd Font"
+family = "JetBrainsMono Nerd Font"
 style = "Regular"
 [font.bold]
-family = "FiraMono Nerd Font"
+family = "JetBrainsMono Nerd Font"
 style = "Bold"
 [font.italic]
-family = "FiraMono Nerd Font"
+family = "JetBrainsMono Nerd Font"
 style = "Italic"
 # Tokyo Night-inspired color scheme
 [colors.primary]
