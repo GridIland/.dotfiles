@@ -25,25 +25,62 @@ font pango:JetBrainsMono NF 7
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
-exec_always kill picom 
-exec_always --no-startup-id picom 
+# exec_always --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+# Force the XApp portal to run as if it's in XFCE (fixing the crash)
+# Services à ne lancer qu'une seule fois (pas de exec_always ici)
+exec --no-startup-id env XDG_CURRENT_DESKTOP=XFCE /usr/libexec/xdg-desktop-portal-xapp
+exec --no-startup-id powernotd
+exec_always --no-startup-id pkill picom; picom
+exec_always --no-startup-id pkill polkit-gnome-au; /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
+exec_always --no-startup-id pkill pasystray; pasystray
+exec_always --no-startup-id pkill indicator-cpufr; indicator-cpufreq
+exec_always --no-startup-id pkill xfce4-power-man; xfce4-power-manager --daemon
+
+# to adjust cpu frequency range
+bindsym $mod+c exec cpupower-gui
+
+# polybar launch scripts 
+# exec_always --no-startup-id ~/.config/polybar/launch.sh
+# exec --no-startup-id ~/.config/polybar/hover.sh
+#
+# bindsym Super_L exec --no-startup-id /usr/bin/polybar-msg cmd show
+# bindsym --release Super_L exec --no-startup-id /usr/bin/polybar-msg cmd hide
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec_always --no-startup-id nm-applet
+exec_always --no-startup-id blueman-applet
 exec_always --no-startup-id feh --bg-scale ~/.dotfiles/backgrounds/google-deepmind-LcgLq78WZCQ-unsplash.jpg
 
 # Use pactl to adjust volume in PulseAudio.
-set $refresh_i3status pkill -SIGRTMIN+10 i3blocks
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status 
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+# set $refresh_i3status pkill -SIGRTMIN+10 i3blocks
+# bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status 
+# bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status
+# bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+# bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+
+# personnalized script with notification for volume
+bindsym XF86AudioRaiseVolume exec --no-startup-id volume_notify up
+bindsym XF86AudioLowerVolume exec --no-startup-id volume_notify down
+bindsym XF86AudioMute        exec --no-startup-id volume_notify mute
+
+# Bluetooth control
+
+bindsym XF86AudioPlay  exec playerctl play-pause
+bindsym XF86AudioNext  exec playerctl next
+bindsym XF86AudioPrev  exec playerctl previous
+bindsym XF86AudioStop  exec playerctl stop
+
+bindsym $mod+Shift+n exec ~/.config/i3/toggle-bt-profile.sh
+#Brightness control
+# bindsym XF86MonBrightnessUp exec brightnessctl set +10%
+# bindsym XF86MonBrightnessDown exec brightnessctl set 10%-
 
 bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
 bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
-
+# STREMIO LAUNCH 
+bindsym $mod+Shift+s exec --no-startup-id flatpak run com.stremio.Stremio
+bindsym $mod+Shift+f exec --no-startup-id flatpak run com.github.tchx84.Flatseal
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 # Make the currently focused window a scratchpad
@@ -51,11 +88,16 @@ bindsym $mod+Shift+m move scratchpad
 bindsym $mod+m scratchpad show
 # start a terminal
 bindsym $mod+Return exec --no-startup-id alacritty
-bindsym $mod+p exec --no-startup-id ~/.config/rofi/launchers/type-1/launcher.sh
+#bindsym $mod+p exec --no-startup-id ~/.config/rofi/launchers/type-1/launcher.sh
+bindsym $mod+p exec --no-startup-id dmenu_run
 bindsym $mod+x exec --no-startup-id ~/.config/rofi/powermenu/type-2/powermenu.sh
 
+# Clipboard shortcut
+bindsym $mod+Shift+w  exec diodon
 # kill focused window
 bindsym $mod+Shift+a kill
+# Screenshot shortcut
+bindsym Print exec flameshot gui
 
 # start dmenu (a program launcher)
 bindsym $mod+d exec --no-startup-id rofi -show drun -theme $HOME/.config/rofi/launchers/type-4/style-9.rasi 
@@ -190,7 +232,7 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command SCRIPT_DIR=~/.config/i3blocks/scripts i3blocks 
+        status_command SCRIPT_DIR=~/.config/i3blocks/scripts/ i3blocks 
         colors {
         background #00000000  # Transparent background
         statusline #FFFFFF     # White text
@@ -207,12 +249,16 @@ bindsym $mod+Shift+b bar mode toggle
 
 gaps inner 6
 gaps outer 0
-for_window [class=".*"] border pixel 3
+# for_window [class=".*"] border pixel 3
+# i3 config
+default_border pixel 0
+default_floating_border pixel 0
 
-client.focused          #1E3D59 #1E3D59 #ffffff #1E3D59 #1E3D59
-client.unfocused        #222222 #222222 #ffffff #222222 #222222
-client.focused_inactive #333333 #333333 #ffffff #333333 #333333
-client.urgent           #900000 #900000 #ffffff #900000 #900000
+
+#client.focused          #1E3D59 #1E3D59 #ffffff #1E3D59 #1E3D59
+#client.unfocused        #222222 #222222 #ffffff #222222 #222222
+#client.focused_inactive #333333 #333333 #ffffff #333333 #333333
+#client.urgent           #900000 #900000 #ffffff #900000 #900000
 
 #floating_minimum_size 50 x 50
 #floating_maximum_size 800 x 600
